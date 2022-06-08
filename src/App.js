@@ -22,13 +22,22 @@ const Button =(props)=>{
   
 }
 const Stats =(props)=>{
-  console.log(props)
-  return (
-    <div>
-      {props.value}
-      <h3>{props.text}</h3>
-    </div>
-  )
+  console.log(props.display)
+  if(props.display){
+    return (
+      <div>
+        {props.value}
+        <h3>{props.text}</h3>
+      </div>
+    )
+  }else{
+    return (
+      <div>
+        <h3>No stats to display</h3>
+      </div>
+    )
+  }
+  
 }
 
 const App = () => {
@@ -36,18 +45,22 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const[clicked,setClicked] = useState(false)
 
   const handleGood =()=>{
     console.log(good)
     setGood(good+1)
+    setClicked(true)
   }
   const handleNeutral =()=>{
     console.log(neutral)
     setNeutral(neutral+1)
+    setClicked(true)
   }
   const handleBad =()=>{
     console.log(bad)
     setBad(bad+1)
+    setClicked(true)
   }
   const totalClicked = ()=>{
     console.log(good+bad+neutral)
@@ -70,11 +83,12 @@ const App = () => {
       <Button handleClick={handleNeutral} value={neutral} text="neutral"/>
       <Button handleClick={handleBad} value={bad} text="bad"/>
       <h1>Statistics</h1>
-      <Stats value={good} text="good"/>
-      <Stats value={neutral} text="neutral"/>
-      <Stats value={bad} text="bad"/>
-      <Stats value={totalClicked()} text="all"/>
-      <Stats value={percentPositive()} text="positive percentage"/>
+
+      <Stats display={clicked} value={good} text="good"/>
+      <Stats display={clicked} value={neutral} text="neutral"/>
+      <Stats display={clicked} value={bad} text="bad"/>
+      <Stats display={clicked} value={totalClicked()} text="all"/>
+      <Stats display={clicked} value={percentPositive()} text="positive percentage"/>
       
     </div>
   )
