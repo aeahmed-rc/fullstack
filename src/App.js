@@ -25,10 +25,12 @@ const Stats =(props)=>{
   console.log(props.display)
   if(props.display){
     return (
-      <div>
-        {props.value}
-        <h3>{props.text}</h3>
-      </div>
+  
+        <table>
+          <h4>{props.text}</h4>
+        <td>{props.value}</td>
+        </table>
+ 
     )
   }else{
     return (
@@ -82,14 +84,15 @@ const App = () => {
       <Button handleClick={handleGood} value={good} text="good"/>
       <Button handleClick={handleNeutral} value={neutral} text="neutral"/>
       <Button handleClick={handleBad} value={bad} text="bad"/>
-      <h1>Statistics</h1>
 
+      <h2>Statistics</h2>
+      
       <Stats display={clicked} value={good} text="good"/>
       <Stats display={clicked} value={neutral} text="neutral"/>
       <Stats display={clicked} value={bad} text="bad"/>
       <Stats display={clicked} value={totalClicked()} text="all"/>
       <Stats display={clicked} value={percentPositive()} text="positive percentage"/>
-      
+
     </div>
   )
 }
