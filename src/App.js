@@ -22,79 +22,82 @@ const Button =(props)=>{
   
 }
 const Stats =(props)=>{
-  console.log(props.display)
-  if(props.display){
-    return (
+  console.log(props)
+  return(
+  <div>
+    <p>
+      {props.anecdotes[props.value]}
+    </p>
+    
+  </div>
+    
   
-        <table>
-          <h4>{props.text}</h4>
-        <td>{props.value}</td>
-        </table>
- 
-    )
-  }else{
-    return (
-      <div>
-        <h3>No stats to display</h3>
-      </div>
-    )
-  }
+  )
   
+}
+const Votes =(props)=>{
+console.log("Votes",props)
+
+return(
+  
+  <div>
+    Has {props.vote[props.selected]} votes
+    <h1>Anecdotes highest:
+      {props.anecdotes[props.high]}
+      </h1>
+  </div>
+)
 }
 
 const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
+  ]
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const[clicked,setClicked] = useState(false)
+  const [selected,setSelected] = useState(0)
+  // const [vote,setVote]=useState(0)
+  const [storedVotes,setVotes]=useState(Array(anecdotes.length).fill(0))
 
-  const handleGood =()=>{
-    console.log(good)
-    setGood(good+1)
-    setClicked(true)
-  }
-  const handleNeutral =()=>{
-    console.log(neutral)
-    setNeutral(neutral+1)
-    setClicked(true)
-  }
-  const handleBad =()=>{
-    console.log(bad)
-    setBad(bad+1)
-    setClicked(true)
-  }
-  const totalClicked = ()=>{
-    console.log(good+bad+neutral)
-    let sum = good+bad+neutral
-    return sum
-  }
-  const percentPositive =()=>{
-    let percent =0
-    if(good !=0){
-      let total = totalClicked()
-      percent = (good/total)*100
-    }
+  console.log(storedVotes)
+  const handleAn =()=>{
+    let ran = Math.floor(Math.random()*anecdotes.length)
+    console.log(ran)
     
-    return percent
+    setSelected(ran)
+
+    // setVote(0)
   }
-  return (
-    <div>
-      <Display/>
-      <Button handleClick={handleGood} value={good} text="good"/>
-      <Button handleClick={handleNeutral} value={neutral} text="neutral"/>
-      <Button handleClick={handleBad} value={bad} text="bad"/>
+  const handleVote =()=>{
+    // setVote(vote+1)
+const newState = [...storedVotes]
+newState[selected] +=1
+setVotes(newState)
 
-      <h2>Statistics</h2>
-      
-      <Stats display={clicked} value={good} text="good"/>
-      <Stats display={clicked} value={neutral} text="neutral"/>
-      <Stats display={clicked} value={bad} text="bad"/>
-      <Stats display={clicked} value={totalClicked()} text="all"/>
-      <Stats display={clicked} value={percentPositive()} text="positive percentage"/>
 
-    </div>
-  )
+  }
+ const  getHighest =()=>{
+  // loop through array and get highest value and its index
+  let high = Math.max(...storedVotes)
+  let index = storedVotes.indexOf(high)
+  return index
+}
+
+return(
+  <div>
+    <Button handleClick={handleAn} text="anectod"/>
+    <Button handleClick={handleVote} text="vote"/>
+    <Stats anecdotes={anecdotes} value={selected}/>
+    <Votes vote={storedVotes} selected={selected} anecdotes={anecdotes} high={getHighest()}/>
+
+  </div>
+)
+  
 }
 
 export default App
